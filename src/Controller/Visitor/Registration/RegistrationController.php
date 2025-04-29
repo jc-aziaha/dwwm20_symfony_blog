@@ -119,6 +119,6 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', "Votre compte a bien été vérifié, vous pouvez vous connecter.");
 
-        return $this->redirectToRoute('app_visitor_welcome');
+        return $this->redirectToRoute('app_login');
     }
 }
