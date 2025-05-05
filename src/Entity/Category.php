@@ -4,7 +4,15 @@ namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
+
+#[UniqueEntity(
+    fields: ['name'],
+    message: "Cette catégorie existe déjà. Veuillez en choisir une autre.",
+)]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
@@ -13,17 +21,32 @@ class Category
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Assert\NotBlank(message: "Le nom est obligatoire.")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "Le nom ne doit pas dépasser {{ limit }} caractères.",
+    )]
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
+
+
+    #[Gedmo\Slug(fields: ['name'])]
     #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
+
+
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+
+
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    
 
     public function getId(): ?int
     {
@@ -35,7 +58,7 @@ class Category
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): static
     {
         $this->name = $name;
 
@@ -45,13 +68,6 @@ class Category
     public function getSlug(): ?string
     {
         return $this->slug;
-    }
-
-    public function setSlug(string $slug): static
-    {
-        $this->slug = $slug;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
