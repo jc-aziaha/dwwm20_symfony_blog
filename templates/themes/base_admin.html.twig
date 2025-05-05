@@ -30,6 +30,10 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
 
+        {% block jQuery %}{% endblock %}
+
+        {% block dataTables %}{% endblock %}
+
         <style>
             .bd-placeholder-img {
                 font-size: 1.125rem;
@@ -198,7 +202,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2 text-dark" href="#">
+                                <a class="nav-link d-flex align-items-center gap-2 text-dark" href="{{path('app_admin_post_index')}}">
                                     <i class="fa-solid fa-feather-pointed"></i>
                                     Articles
                                 </a>
