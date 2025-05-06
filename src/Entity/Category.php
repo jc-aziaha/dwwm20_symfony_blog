@@ -54,6 +54,7 @@ class Category
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'category', orphanRemoval: true)]
     private Collection $posts;
 
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
