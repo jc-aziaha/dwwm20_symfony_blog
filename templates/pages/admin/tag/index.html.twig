@@ -1,0 +1,60 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Liste des tags{% endblock %}
+
+{% block description %}Liste des tags de l'application{% endblock %}
+
+{% block jQuery %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+{% block dataTables %}
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.3.0/datatables.min.css" rel="stylesheet" integrity="sha384-hGoHjV7OyUWri8NopwGqlstj4hDVsperCk9BPyX+MZb56/Mj81CK4htI0G24m4Es" crossorigin="anonymous">
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.3.0/datatables.min.js" integrity="sha384-7zOvA9ql/NaRs8q4iOxQ0LgXDU0uArnHO2L6o2QMHIDuvnbmWsxr5axjvByjDsRF" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/2.3.0/i18n/fr-FR.json', 
+                }
+            });
+        } );
+    </script>
+{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Liste des tags</h1>
+
+    {% include 'components/alert.html.twig' %}
+
+    <div class="d-flex justify-content-end align-items-center my-3">
+        <a href="{{path('app_admin_tag_create')}}" class="btn btn-primary shadow"><i class="fa-solid fa-plus"></i> Nouveau tag</a>
+    </div>
+
+    <div class="table-responsive">
+        <table id="myTable" class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tag in tags %}
+                    <tr>
+                        <td>{{tag.name}}</td>
+                        <td>{{tag.slug}}</td>
+                        <td>
+                            <a href="{{path('app_admin_tag_edit', {'id':tag.id})}}" class="btn btn-sm btn-secondary">Modifier</a>
+                            <form action="{{path('app_admin_tag_delete', {'id':tag.id})}}" method="post" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{csrf_token('delete_tag_'~tag.id)}}">
+                                <input onclick="return confirm('Confirmer la suppression?')" type="submit" value="Supprimer" class="btn btn-sm btn-danger">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
