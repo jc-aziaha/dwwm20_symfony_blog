@@ -1,0 +1,32 @@
+<h1>Bonjour Jean Dupont!</h1>
+
+<p>Vous avez reçu un message de {{contact_first_name}} {{contact_last_name}} provenant de votre blog.</p>
+
+<p>Voici ses coordonnées:</p>
+
+<ul>
+    <li><strong>Email</strong>: {{contact_email}}</li>
+    <li><strong>Téléphone</strong>: {{contact_phone ? contact_phone : 'Non renseigné'}}</li>
+</ul>
+
+<div>
+    <p><strong>Voici le message</strong>: </p>
+
+    <p>{{contact_message}}</p>
+</div>
+
+<p>Ciao Ciao 😎</p>
+
+{#
+Vous avez reçu un message de ken Masters provenant de votre blog.
+
+Voici ses coordonnées :
+
+Email : ken@gmail.com
+Ken n'a pas laissé de numéro de téléphone.
+
+Voici le message :
+
+Hadoken
+
+Ciao Ciao 😎 #}
