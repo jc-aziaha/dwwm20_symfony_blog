@@ -1,0 +1,32 @@
+{% extends 'themes/base_admin.html.twig' %}
+
+{% block title %}Les paramètres du site{% endblock %}
+
+{% block description %}Accédez aux paramètres du site{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Les paramètres du site</h1>
+
+    {% include 'components/alert.html.twig' %}
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>{{setting.email}}</th>
+                    <th>{{setting.phone}}</th>
+                    <th>
+                        <a href="{{path('app_admin_setting_edit', {'id':setting.id})}}" class="btn btn-sm btn-secondary">Modifier</a>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

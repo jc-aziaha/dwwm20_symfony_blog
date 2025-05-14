@@ -4,6 +4,7 @@ namespace App\Controller\Visitor\Contact;
 
 use App\Entity\Contact;
 use App\Form\VisitorContactFormType;
+use App\Repository\SettingRepository;
 use App\Service\EmailSenderService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,14 +23,20 @@ final class ContactController extends AbstractController
     }
 
     #[Route('/contact', name: 'app_visitor_contact', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        SettingRepository $settingRepository
+    ): Response 
     {
-        $contact = new Contact();
 
+        $settings = $settingRepository->findAll();
+        $setting = $settings[0];
+
+        $contact = new Contact();
         $form = $this->createForm(VisitorContactFormType::class, $contact);
 
         $form->handleRequest($request);
-
         if ( $form->isSubmitted() && $form->isValid() ) 
         {
 
@@ -43,7 +50,6 @@ final class ContactController extends AbstractController
                     $contact->setUser($this->getUser());
                 }
             }
-
 
             $contact->setCreatedAt(new DateTimeImmutable());
 
@@ -72,7 +78,8 @@ final class ContactController extends AbstractController
         }
         
         return $this->render('pages/visitor/contact/create.html.twig', [
-            "form" => $form->createView()
+            "form"      => $form->createView(),
+            "setting"   => $setting
         ]);
     }
 }
